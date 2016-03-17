@@ -1,11 +1,15 @@
 def wsgi_application(environ, start_response):
 	status = '200 OK'
 	headers = [
-	('Content-Type', 'text/html')
+	('Content-Type', 'text/plain')
 	]
-	stro = '<html><head></head><body><p>Answer:<ol>'
-	for key in environ:
-		stro=stro + '<li>' + str(key) + '  ===  ' + str(environ[key]) + ' (' + str(type(environ[key])) + ') </li>'
-	body = stro + '</ol></body></html>'
+	temp=str(environ['QUERY_STRING'])
+	stro = str()
+	for i in temp:
+		if i == '&':
+			stro = stro + '\r\n'
+		else:
+			stro = stro + i
+	body = stro
 	start_response(status, headers)
 	return [ body ]
